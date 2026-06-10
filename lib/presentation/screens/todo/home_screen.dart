@@ -83,6 +83,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             foregroundColor: Colors.white,
             elevation: 0,
             actions: [
+              // Search toggle
               IconButton(
                 onPressed: () {
                   setState(() {
@@ -350,7 +351,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  // Description
                   Text(
                     todo.description,
                     maxLines: 2,
@@ -753,6 +753,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final userId = authState.user!.id;
     final todoController = ref.read(todoControllerProvider.notifier);
 
+    // Show loading indicator
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -781,9 +782,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         }
       }
     } catch (e) {
+      // Close loading dialog
       if (context.mounted) {
         Navigator.of(context).pop();
 
+        // Show error message
         SnackBarUtil.showError(context, 'Error adding test todos: $e');
       }
     }

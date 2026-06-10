@@ -1,29 +1,27 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:detailed__riverpod_app/main.dart';
-import 'package:flutter/material.dart';
+import 'package:detailed__riverpod_app/domain/entities/todo_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const RiverpodTodoApp());
+  group('TodoEntity Tests', () {
+    test('copyWith works correctly', () {
+      final now = DateTime.now();
+      final todo = TodoEntity(
+        id: '1',
+        title: 'Test Title',
+        description: 'Test Description',
+        priority: TodoPriority.medium,
+        status: TodoStatus.pending,
+        createdAt: now,
+        updatedAt: now,
+        tags: 'test',
+        userId: 'user1',
+      );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      final updatedTodo = todo.copyWith(status: TodoStatus.completed);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      expect(updatedTodo.id, '1');
+      expect(updatedTodo.status, TodoStatus.completed);
+      expect(updatedTodo.title, 'Test Title');
+    });
   });
 }
